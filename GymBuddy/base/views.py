@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
@@ -24,6 +25,19 @@ def paginaLogin(request):
 def logoutUsuario(request):
     logout(request)
     return redirect("home")
+
+def registrarUsuario(request):
+    form = UserCreationForm()
+    if request.method == 'POST':
+        resp = UserCreationForm(request.POST)
+        if resp.is_valid():
+            user = resp.save()
+            user.save()
+            login(request, user)
+            return redirect("home")
+        else:
+            messages.error(request, 'Erro ao responder')
+    return render(request, 'criar-login.html', {'form' : form})
 
 def home(request):
     return render(request, 'home.html')
