@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Menu do Usuário</title>
+{% extends 'main.html' %}
+
+{% block content %}
+    <h1>Menu do Usuário</h1>
 </head>
 <body>
-    <h1>Bem-vindo ao Menu do Usuário</h1>
+    <h2>Bem-vindo ao Menu do Usuário</h2>
     
     <!-- Adicione links para as páginas de treinos e perfil -->
     <ul>
@@ -13,10 +12,8 @@
         <li><a href="{% url 'perfil' %}">Perfil</a></li>
     </ul>
     
-    <!-- Adicione um link de logout -->
-    <form method="post" action="{% url 'paginaLogout' %}">
-        {% csrf_token %}
-        <input type="submit" value="Logout">
-    </form>
+
+{% endblock %}
 </body>
 </html>
+
