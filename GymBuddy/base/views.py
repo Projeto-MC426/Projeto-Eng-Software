@@ -78,6 +78,7 @@ def atualizar_perfil(request):
         profile.academia = request.POST['academia']
         profile.nome = request.POST['nome']
         profile.genero = request.POST['genero']
+        profile.data_de_nascimento = request.POST['data_de_nascimento']
         
         # Salve as alterações no perfil
         profile.save()
@@ -88,4 +89,5 @@ def atualizar_perfil(request):
         # Trate a visualização de atualização de perfil para métodos GET, se necessário
         # Aqui você pode adicionar lógica para exibir um formulário de atualização vazio
         # ou fazer algo apropriado com base em sua necessidade
+        profile = UserProfile.objects.get(user=request.user)
         return render(request, 'atualizar_perfil.html')  # Crie um template para a página de atualização de perfil se necessário

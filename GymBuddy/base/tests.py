@@ -15,7 +15,7 @@ class LoginTestCase(TestCase):
     def test_login_com_credenciais_validas(self):
         response = self.client.post(reverse('paginaLogin'), {'usuario': self.username, 'senha': self.password})
         self.assertEqual(response.status_code, 302)  # Verifica se é redirecionado após o login
-        self.assertRedirects(response, reverse('home'))
+        self.assertRedirects(response, reverse('menuUsuario'))
     
     def test_login_com_credenciais_invalidas(self):
         response = self.client.post(reverse('paginaLogin'), {'usuario': 'usuario_invalido', 'senha': 'senha_errada'})
@@ -37,3 +37,4 @@ class LoginTestCase(TestCase):
         response = self.client.post(reverse('registrar'), {'username': 'novousuario', 'password1': 'senhavalida', 'password2': 'senhadiferente'})
         self.assertEqual(response.status_code, 200)  # Permanece na página de registro
         self.assertContains(response, 'Erro ao responder')  # Verifica se a mensagem de erro é exibida
+
