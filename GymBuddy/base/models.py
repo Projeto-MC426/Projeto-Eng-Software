@@ -7,7 +7,7 @@ class UserProfile(models.Model):
     academia = models.CharField(max_length=100, unique=True)
     nome = models.CharField(max_length=100)
     genero = models.CharField(max_length=10)
-
+    
     # Outros campos do perfil aqui
 
     def __str__(self):
