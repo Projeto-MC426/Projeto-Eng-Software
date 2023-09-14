@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Página de Perfil</title>
+</head>
+<body>
+    <h1>Bem-vindo à Página de Perfil</h1>
+
+    <h2>Seu Perfil</h2>
+    <p>Academia: {{ profile.academia }}</p>
+    <p>Nome: {{ profile.nome }}</p>
+    <p>Gênero: {{ profile.genero }}</p>
+
+    <h2>Atualizar Perfil</h2>
+    <form method="post" action="{% url 'atualizar_perfil' %}">
+        {% csrf_token %}
+        <label for="academia">Academia:</label>
+        <input type="text" id="academia" name="academia" value="{{ profile.academia }}"><br>
+
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" value="{{ profile.nome }}"><br>
+
+        <label for="genero">Gênero:</label>
+        <input type="text" id="genero" name="genero" value="{{ profile.genero }}"><br>
+
+        <input type="submit" value="Salvar">
+    </form>
+</body>
+</html>
+
+

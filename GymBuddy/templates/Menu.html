@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu do Usuário</title>
+</head>
+<body>
+    <h1>Bem-vindo ao Menu do Usuário</h1>
+    
+    <!-- Adicione links para as páginas de treinos e perfil -->
+    <ul>
+        <li><a href="{% url 'treinos' %}">Treinos</a></li>
+        <li><a href="{% url 'perfil' %}">Perfil</a></li>
+    </ul>
+    
+    <!-- Adicione um link de logout -->
+    <form method="post" action="{% url 'paginaLogout' %}">
+        {% csrf_token %}
+        <input type="submit" value="Logout">
+    </form>
+</body>
+</html>
