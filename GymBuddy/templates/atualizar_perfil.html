@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <h1>Atualizar Perfil</h1>
+
+    {% if messages %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'atualizar_perfil' %}">
+        {% csrf_token %}
+        <!-- Campos do formulário -->
+        <label for="academia">Academia:</label>
+        <input type="text" id="academia" name="academia" value="{{ profile.academia }}"><br>
+
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" value="{{ profile.nome }}"><br>
+
+        <label for="genero">Gênero:</label>
+        <input type="text" id="genero" name="genero" value="{{ profile.genero }}"><br>
+
+        <label for="data_de_nascimento">Data de Nascimento:</label>
+        <input type="date" id="data_de_nascimento" name="data_de_nascimento" value="{{ profile.data_de_nascimento }}"><br>
+
+        <input type="submit" value="Salvar">
+    </form>
+{% endblock %}
