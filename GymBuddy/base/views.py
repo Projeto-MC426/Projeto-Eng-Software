@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 from django.http import HttpResponse
+from django.forms import ValidationError
 # Create your views here.
 
 def paginaLogin(request):
@@ -56,38 +57,59 @@ def treinos(request):
     return render(request, 'treinos.html')
 
 def perfil(request):
-    if request.user.is_authenticated:
-        # Recupere o perfil do usuário atualmente logado
-        profile = UserProfile.objects.get(user=request.user)
+    # Recupere o perfil do usuário atualmente logado
+    profile = UserProfile.objects.get(user=request.user)
 
-
-        return render(request, 'perfil.html', {'profile': profile})
-    else:
-        # Trate o caso em que o usuário não está autenticado    
-        # Redirecione para a página de login ou faça algo apropriado
-        # Aqui você pode adicionar seu próprio tratamento de erro
-        return HttpResponse("Você precisa estar logado para acessar esta página.")
-    
-
-def atualizar_perfil(request):
     if request.method == 'POST':
-        # Recupere o perfil do usuário atualmente logado
-        profile = UserProfile.objects.get(user=request.user)
+        # Se a solicitação for POST, atualize o perfil
+        profile.academia = request.POST['academia']
+        profile.nome = request.POST['nome']
+        profile.genero = request.POST['genero']
         
+        # Tente obter a data de nascimento do formulário
+        data_de_nascimento = request.POST.get('data_de_nascimento', None)
+
+        if data_de_nascimento:
+            try:
+                # Tente converter a data de nascimento
+                profile.data_de_nascimento = data_de_nascimento
+                profile.save()
+                messages.success(request, 'Perfil atualizado com sucesso!')
+                return redirect('perfil')
+            except ValidationError as e:
+                # Trate o caso de validação da data de nascimento
+                messages.error(request, f"Erro: {', '.join(e)}")
+        else:
+            # Trate o caso em que a data de nascimento não foi fornecida
+            messages.error(request, "Data de Nascimento é um campo obrigatório.")
+
+    return render(request, 'perfil.html', {'profile': profile})
+    
+def atualizar_perfil(request):
+    # Recupere o perfil do usuário atualmente logado
+    profile = UserProfile.objects.get(user=request.user)
+
+    if request.method == 'POST':
         # Atualize os campos do perfil com base nos dados do formulário
         profile.academia = request.POST['academia']
         profile.nome = request.POST['nome']
         profile.genero = request.POST['genero']
-        profile.data_de_nascimento = request.POST['data_de_nascimento']
         
-        # Salve as alterações no perfil
-        profile.save()
-        
-        # Redirecione de volta para a página de perfil após a atualização
-        return redirect('perfil')
-    else:
-        # Trate a visualização de atualização de perfil para métodos GET, se necessário
-        # Aqui você pode adicionar lógica para exibir um formulário de atualização vazio
-        # ou fazer algo apropriado com base em sua necessidade
-        profile = UserProfile.objects.get(user=request.user)
-        return render(request, 'atualizar_perfil.html')  # Crie um template para a página de atualização de perfil se necessário
+        # Tente obter a data de nascimento do formulário
+        data_de_nascimento = request.POST.get('data_de_nascimento', None)
+
+        if data_de_nascimento:
+            try:
+                # Tente converter a data de nascimento
+                profile.data_de_nascimento = data_de_nascimento
+                profile.save()
+                messages.success(request, 'Perfil atualizado com sucesso!')
+                return redirect('perfil')
+            except ValidationError as e:
+                # Trate o caso de validação da data de nascimento
+                messages.error(request, f"Erro: {', '.join(e)}")
+        else:
+            # Trate o caso em que a data de nascimento não foi fornecida
+            messages.error(request, "Data de Nascimento é um campo obrigatório.")
+
+    return render(request, 'atualizar_perfil.html', {'profile': profile})

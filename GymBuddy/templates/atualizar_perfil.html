@@ -1,30 +1,21 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    <h1>Página de Perfil</h1>
-    <button onclick="goBack()">Voltar</button> <!-- Botão para voltar -->
-</head>
-<body>
-    <h2>Bem-vindo à Página de Perfil</h2>
-
-    <h3>Seu Perfil</h3>
-    <p>Academia: {{ profile.academia }}</p>
-    <p>Nome: {{ profile.nome }}</p>
-    <p>Gênero: {{ profile.genero }}</p>
-    <p>Data de Nascimento: {{ profile.data_de_nascimento }}</p>
-
-    <h3>Atualizar Perfil</h3>
+    <h1>Atualizar Perfil</h1>
 
     {% if messages %}
-        <ul class="messages">
+    <div class="alert alert-danger">
+        <ul>
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            <li>{{ message }}</li>
             {% endfor %}
         </ul>
+    </div>
     {% endif %}
 
     <form method="post" action="{% url 'atualizar_perfil' %}">
         {% csrf_token %}
+        <!-- Campos do formulário -->
         <label for="academia">Academia:</label>
         <input type="text" id="academia" name="academia" value="{{ profile.academia }}"><br>
 
@@ -39,11 +30,4 @@
 
         <input type="submit" value="Salvar">
     </form>
-    <script>
-        function goBack() {
-            window.history.back(); // Esta função volta para a página anterior no histórico do navegador
-        }
-    </script>
 {% endblock %}
-</body>
-</html>
